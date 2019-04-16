@@ -1,6 +1,4 @@
-<html>
-<head></head>
-<body>
+{% include 'fenster/base.html' %}
     <h1>das Fenster</h1>
     <form action="{% url 'buy' %}" method="post">
     {% csrf_token %}
@@ -31,6 +29,5 @@
 {% endfor %}
 <input type="submit" value="Buy">
 </form>
-</body>
-</html>
+
 
