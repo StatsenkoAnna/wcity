@@ -1,6 +1,9 @@
 {% include 'fenster/base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
     <h1>das Fenster</h1>
-    <form action="{% url 'buy' %}" method="post">
+
+    <form action="{% url 'index' %}" method="post">
     {% csrf_token %}
     {% for afenster in fenster_list %} 
     <table border="6">
@@ -9,12 +12,14 @@
              <input
                 type="radio"
                 name="selected_fenster"
-                id="fenster{{afenster.id}}
+                id="fenster{{afenster.id}}"
+                value="{{afenster.id}}"
                 checked="checked" 
             />
             <label for=fenster{{afenster.id}}>
             fenster №{{afenster.id}}
-            </label>  
+            </label> 
+			<img src="{% static 'city.jpg'%}" style="width: 100px"> 
             </td>
         </tr>
         <tr height="{{window_height}}px">

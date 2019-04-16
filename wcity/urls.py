@@ -19,8 +19,14 @@ from django.urls import include
 from django.urls import path
 
 urlpatterns = [
+    path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
     path('fenster/', include('fenster.urls')),
+    path(
+        'accounts/logout/',
+        LoginView.as_view(),
+        name='logout'
+    ),
     path(
         'accounts/login/',
         LoginView.as_view(template_name='fenster/loginpage.html'),

@@ -3,11 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .models import Fenster
 from random import randint
-
-# Create your views here.
-
-from django.http import HttpResponse
-from django.template import loader
+from django.core.mail import send_mail
+from .pss import yapass
 
 def index(request):
     #test_creation()
@@ -15,18 +12,32 @@ def index(request):
         "request_place": str(request)
     }
     try:
+        print(str(request.POST))
         if 'selected_fenster' in request.POST:
-            fenster_id = request.POST('selected_fenster')
-            return buy(request, fenster_id)
+            fenster_id = request.POST['selected_fenster']
+            return buy(request)
         context['request_place'] += str(request.POST)
     except Exception as e:
         context["an exception"] = str(e) + str(type(e))
     return display_all(request, context)
 
-def buy(request, fenster_id):
-    all_fensters = Fenster.objects
-    Fenster.objects.filter(id=fenster_id).delete()
-    return display_all(request)
+def buy(request):
+    if request.method == 'POST':
+        print(str(request.POST))
+        if 'selected_fenster' in request.POST:
+            f = Fenster.objects.get(pk=request.POST['selected_fenster'])
+            f.save()
+            print("kuku")
+            send_mail(
+                subject='Fenster was sold',
+                message='Fenster #%i was sold.' % f.id,
+                from_email='anna26071145@yandex.ru',
+                recipient_list=['geturlru@gmail.com', 'anna190711@gmail.com'],
+                auth_user="anna26071145",
+                auth_password=yapass,
+                fail_silently=False
+                )
+    return HttpResponseRedirect("/fenster")
 
 def display_all(request, context={}):
     fenster_list = Fenster.objects.order_by('id')
