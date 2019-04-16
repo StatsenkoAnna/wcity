@@ -1,0 +1,29 @@
+<html>
+<head></head>
+<body>
+    <h1>New Fenster</h1>
+    <form action="{% url 'buy' %}" method="post">
+	{% csrf_token %} 
+             Ширина:<input
+                type="text"
+                name="fenster_width"
+				value = "100"
+                id="fenster_width" 
+            /><br>
+			Высота:<input
+                type="text"
+                name="fenster_height"
+				value = "100"
+                id="fenster_height" 
+            /><br>
+			Схема:<input
+                type="text"
+                name="fenster_scheme"
+				value = "1,2"
+                id="fenster_scheme" 
+            /><br>
+			<input type="submit" value="Выставить на продажу">
+	</form>
+</body>
+</html>
+

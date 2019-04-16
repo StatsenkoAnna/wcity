@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-
+from django.contrib.auth.decorators import login_required
 from .models import Fenster
 from random import randint
 
@@ -32,6 +32,19 @@ def display_all(request, context={}):
     fenster_list = Fenster.objects.order_by('id')
     context["fenster_list"] = fenster_list
     return render(request, 'fenster/index.html', context)
+
+@login_required
+def sell(request):
+#Sell a fenster.
+    if request.method == "GET":
+        return render(request, 'fenster/new.html')
+    elif request.method == "POST":
+        f = Fenster(
+        fenster_width=request.POST["fenster_width"],
+        fenster_height=request.POST["fenster_height"],
+        fenster_scheme=request.POST["fenster_scheme"],
+        window_view='')
+    f.save()
 
 def test_creation():
 #Create a new fenster.
