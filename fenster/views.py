@@ -5,6 +5,11 @@ from .models import Fenster
 from random import randint
 from django.core.mail import send_mail
 from .pss import yapass
+import logging
+import os
+
+
+logger = logging.getLogger(__name__)
 
 def index(request):
     #test_creation()
@@ -27,12 +32,18 @@ def buy(request):
         if 'selected_fenster' in request.POST:
             f = Fenster.objects.get(pk=request.POST['selected_fenster'])
             f.save()
-            print("kuku")
+            print("\n\nSOOOOOLD!%s\n\n" % request.POST['selected_fenster'])
+            logger.log(
+                'Fenster #%i was sold.' % (
+                     request.POST['selected_fenster']
+            ))
+            print('kuku')
+            os.sys.stdout.flush()
             send_mail(
                 subject='Fenster was sold',
                 message='Fenster #%i was sold.' % f.id,
                 from_email='anna26071145@yandex.ru',
-                recipient_list=['geturlru@gmail.com', 'anna190711@gmail.com'],
+                recipient_list=['anna190711@gmail.com'],
                 auth_user="anna26071145",
                 auth_password=yapass,
                 fail_silently=False
